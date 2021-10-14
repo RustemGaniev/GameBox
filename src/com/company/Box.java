@@ -4,16 +4,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class Box {
 
-    AtomicBoolean box = new AtomicBoolean(false);
-    boolean boxOn = true;
-    boolean boxOff = false;
+    volatile boolean box = false;
     int triesNumber = 10;
     long turnOnWaitTime = 1000;
     long turnOffWaitTime = 1000;
 
     public void turnOnBox() throws InterruptedException {
         for (int i = 0; i < triesNumber; i++) {
-            if (box.compareAndSet(boxOff, boxOn)) {
+            if (box == false) {
+                box = true;
                 System.out.println(Thread.currentThread().getName() + " включил тумблер \n");
                 Thread.sleep(turnOnWaitTime);
             }
@@ -29,7 +28,8 @@ public class Box {
                 System.out.println("Игра завершена, спасибо за то, что были с нами !");
                 return;
             }
-            if (box.compareAndSet(boxOn, boxOff)) {
+            if (box == true) {
+                box = false;
                 System.out.println(Thread.currentThread().getName() + " выключила тумблер  \n");
             }
         }
