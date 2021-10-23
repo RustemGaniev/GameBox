@@ -1,13 +1,11 @@
 package com.company;
 
-import java.util.concurrent.atomic.AtomicBoolean;
-
 public class Box {
 
     volatile boolean box = false;
-    int triesNumber = 10;
-    long turnOnWaitTime = 1100;
-    long turnOffWaitTime = 1100;
+    static final int triesNumber = 10;
+    static final long turnOnWaitTime = 1100;
+    static final long turnOffWaitTime = 1100;
 
     public void turnOnBox() throws InterruptedException {
         for (int i = 0; i < triesNumber; i++) {
